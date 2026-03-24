@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 import os
 
 SECRET_KEY = os.getenv('SECRET_KEY')
-ALGORITHM = os.getenv('ALGORITHM')
+ALGORITHM = "HS256"
 
 def create_acess_token(data: dict):
     to_encode = data.copy()

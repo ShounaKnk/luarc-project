@@ -5,18 +5,25 @@ from models.models import User
 from utils.security import secure_password, check_password
 from utils.jwt import create_acess_token
 from utils.deps import get_current_user
+from schemas.auth import UserRegister, UserLogin, TokenResponse
 
 router = APIRouter(prefix='/auth', tags=["Auth"])
 
 @router.post('/register')
-def register(email: str, password: str, db: Session = Depends(get_db)):
-    user = User(email = email, password=secure_password(password))
+def register(data: UserRegister, db: Session = Depends(get_db)):
+    user = User(email = data.email, password=secure_password(data.password))
     db.add(user)
     db.commit()
     db.refresh(user)
-    return {"user": "user created"}
+    return {
+        "sucess": True,
+        "data": {
+            "id": user.id,
+            "email": user.email 
+        }
+    }
 
-@router.post("/login")
+@router.post("/login", response_model=TokenResponse)
 def login(
         username:str = Form(...),
         password: str = Form(...),
