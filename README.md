@@ -30,8 +30,7 @@ The system allows authenticated users to discover available assets, claim them, 
 ├── models/            # SQLAlchemy Database Models (User, Coupon, Claim)
 ├── routes/            # FastAPI Routers for different resource domains
 │   ├── auth.py        # Registration, Login, and Profile lookups
-│   ├── coupons.py     # Creation, Listing, Claiming, and Statistics
-│   └── test.py        # General testing endpoints
+│   └── coupons.py     # Creation, Listing, Claiming, and Statistics
 ├── schemas/           # Pydantic models for request/response validation
 ├── services/          # Core Business Logic handling (AuthService, CouponService)
 ├── utils/             # Helper utilities, authentication dependency handlers (e.g. get_current_user)
