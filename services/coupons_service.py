@@ -46,6 +46,9 @@ class CouponService:
                 raise HTTPException(status_code=400, detail="Coupon Exhausted")
             coupon.claimed_quantity += 1
             
+            if self.db.query(Claim).filter(Claim.user_id == user["user_id"], Claim.coupoun_id == coupon_id).first():
+                raise HTTPException(status_code=400, detail="Coupon alredy claimed")
+            
             claim = Claim(user_id = user["user_id"], coupon_id = coupon_id)
             self.db.add(claim)
             
