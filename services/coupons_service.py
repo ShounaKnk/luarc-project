@@ -46,7 +46,7 @@ class CouponService:
                 raise HTTPException(status_code=400, detail="Coupon Exhausted")
             coupon.claimed_quantity += 1
             
-            if self.db.query(Claim).filter(Claim.user_id == user["user_id"], Claim.coupoun_id == coupon_id).first():
+            if self.db.query(Claim).filter(Claim.user_id == user["user_id"], Claim.coupon_id == coupon_id).first():
                 raise HTTPException(status_code=400, detail="Coupon alredy claimed")
             
             claim = Claim(user_id = user["user_id"], coupon_id = coupon_id)
@@ -65,10 +65,10 @@ class CouponService:
             raise
         except SQLAlchemyError:
             self.db.rollback()
-            return HTTPException(status_code=500, detail="Database error")
+            raise HTTPException(status_code=500, detail="Database error")
         except:
             self.db.rollback()
-            return HTTPException(status_code=500, detail="unknown error")
+            raise HTTPException(status_code=500, detail="unknown error")
         
     def get_my_claims(self, user: Session):
         claims = self.db.query(Claim).join(Coupon).filter(Claim.user_id == user["user_id"]).all()
